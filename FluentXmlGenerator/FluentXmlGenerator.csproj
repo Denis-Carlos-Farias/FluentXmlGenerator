@@ -9,5 +9,6 @@
     <Title>Make your XML files easier with FluentXmlGenerator</Title>
     <Authors>Denis Carlos de Farias</Authors>
     <Description>New easy way to build you Xml files</Description>
+    <RepositoryUrl>https://github.com/Denis-Carlos-Farias/FluentXmlGenerator</RepositoryUrl>
   </PropertyGroup>
 </Project>
