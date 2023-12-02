@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0C936F3D-0C6F-43FD-9BE6-688698840DA1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FluentXmlGenerator", "FluentXmlGenerator", "{E580D0AA-1D3C-401F-BD27-40747D11FC4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentXmlGenerator", "FluentXmlGenerator\FluentXmlGenerator.csproj", "{C1F125BF-28F4-4630-A169-FB1C3458F3DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1F125BF-28F4-4630-A169-FB1C3458F3DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1F125BF-28F4-4630-A169-FB1C3458F3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1F125BF-28F4-4630-A169-FB1C3458F3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1F125BF-28F4-4630-A169-FB1C3458F3DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E580D0AA-1D3C-401F-BD27-40747D11FC4E} = {0C936F3D-0C6F-43FD-9BE6-688698840DA1}
+		{C1F125BF-28F4-4630-A169-FB1C3458F3DF} = {E580D0AA-1D3C-401F-BD27-40747D11FC4E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {79A11D4E-4451-49F5-8A24-B1E01A4A28FF}
+	EndGlobalSection
+EndGlobal
