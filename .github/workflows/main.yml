@@ -1,0 +1,26 @@
+name: Publish NuGet Package
+
+on:
+  push:
+    branches:
+      - main # Substitua pela sua branch principal
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build and pack NuGet package
+      run: nuget pack FluentXmlGenerator/nugetSettings.nuspec -OutputDirectory ./nuget_output
+
+    - name: Publish NuGet package to GitHub Releases
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./nuget_output/*.nupkg
+        asset_name: SeuArquivo.nupkg
+        asset_content_type: application/octet-stream
+        token: ${{ secrets.GITHUB_TOKEN }}
