@@ -1,8 +1,9 @@
-﻿using System.Xml;
+﻿using FluentXmlGenerator.Interfaces;
+using System.Xml;
 
 namespace FluentXmlGenerator;
 
-public class XmlBuilder
+public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
 {
     private readonly XmlDocument _xmlDocument;
     private XmlElement _currentElement;
@@ -16,7 +17,7 @@ public class XmlBuilder
     /// Metodo de configuração inicial
     /// </summary>
     /// <returns>XmlBuilder.XmlBuilder</returns>
-    public static XmlBuilder Configure()
+    public static IForFirstStage Configure()
     {
         return new XmlBuilder();
     }
@@ -27,7 +28,7 @@ public class XmlBuilder
     /// <typeparam name="T">Classe a ser utilizada</typeparam>
     /// <param name="obj">Objeto com as propriedades a serem transformadas</param>
     /// <returns>XmlBuilder.XmlBuilder</returns>
-    public XmlBuilder AddElement<T>(T obj) where T : class
+    IForSecondStage IForFirstStage.AddElement<T>(T obj) where T : class
     {
         var properties = typeof(T).GetProperties();
 
@@ -62,7 +63,7 @@ public class XmlBuilder
     /// <param name="namespacePrefix">Prefixo do namespace a ser atribuido</param>
     /// <param name="attribute">Nome do atributo</param>
     /// <returns>XmlBuilder.XmlBuilder</returns>
-    public XmlBuilder AddElement<T>(T obj, string namespacePrefix, string attribute) where T : class
+    IForSecondStage IForFirstStage.AddElement<T>(T obj, string namespacePrefix, string attribute) where T : class
     {
         var properties = typeof(T).GetProperties();
 
@@ -107,7 +108,7 @@ public class XmlBuilder
     /// <param name="defaultAttributeValue">Campo opcional para adicionar o valor padrão no atributo.
     /// valor default: string</param>
     /// <returns>XmlBuilder.XmlBuilder</returns>
-    public XmlBuilder AddElement<T>(T obj, string namespacePrefixattribute, string namespacePrefixattributeValue, string attribute, bool defaultAttributeValue = false) where T : class
+    IForSecondStage IForFirstStage.AddElement<T>(T obj, string namespacePrefixattribute, string namespacePrefixattributeValue, string attribute, bool defaultAttributeValue) where T : class
     {
         var properties = typeof(T).GetProperties();
 
@@ -146,7 +147,7 @@ public class XmlBuilder
     /// </summary>
     /// <param name="elementName">Nome do elemento</param>
     /// <returns>XmlBuilder.XmlBuilder</returns>
-    public XmlBuilder AddElement(string elementName)
+    public IForSecondStage AddElement(string elementName)
     {
         var element = _xmlDocument.CreateElement(elementName);
         if (_currentElement == null)
@@ -167,7 +168,7 @@ public class XmlBuilder
     /// <param name="elementName">Nome do elemento</param>
     /// <param name="namespacePrefix">Nome do namespace a ser herdado</param>
     /// <returns>XmlBuilder.XmlBuilder</returns>
-    public XmlBuilder AddElement(string elementName, string namespacePrefix = null)
+    public IForSecondStage AddElement(string elementName, string namespacePrefix = null)
     {
         XmlElement element;
         if (!string.IsNullOrEmpty(namespacePrefix))
@@ -192,7 +193,7 @@ public class XmlBuilder
     /// <param name="namespacePrefix">Prefixo do namespace</param>
     /// <param name="namespaceUri">Uri do respectivo namespace</param>
     /// <returns>XmlBuilder.XmlBuilder</returns>
-    public XmlBuilder AddElement(string elementName, string namespacePrefix = null, string namespaceUri = null)
+    public IForSecondStage AddElement(string elementName, string namespacePrefix = null, string namespaceUri = null)
     {
         XmlElement element;
         if (namespacePrefix != null && namespaceUri != null)
@@ -234,7 +235,7 @@ public class XmlBuilder
     /// <param name="prefix">Prefixo do namespace</param>
     /// <param name="uri">Uri do respectivo namespace</param>
     /// <returns>XmlBuilder.XmlBuilder</returns>
-    public XmlBuilder WithNamespace(string prefix, string uri)
+    public IForGenerateXml WithNamespace(string prefix, string uri)
     {
         if (_currentElement != null)
         {
@@ -251,7 +252,7 @@ public class XmlBuilder
     /// <param name="attributeName">Nome do atributo</param>
     /// <param name="attributeValue">Valor do atributo</param>
     /// <returns>XmlBuilder.XmlBuilder</returns>
-    public XmlBuilder WithAttribute(string attributeName, string attributeValue)
+    public IForGenerateXml WithAttribute(string attributeName, string attributeValue)
     {
         if (_currentElement != null)
         {
@@ -269,7 +270,7 @@ public class XmlBuilder
     /// <param name="attributeName">Nome do atributo</param>
     /// <param name="attributeValue">Valor do atributo</param>
     /// <returns>XmlBuilder.XmlBuilder</returns>
-    public XmlBuilder WithAttribute(string namespacePrefix, string attributeName, string attributeValue)
+    public IForGenerateXml WithAttribute(string namespacePrefix, string attributeName, string attributeValue)
     {
         if (_currentElement != null)
         {
@@ -294,7 +295,7 @@ public class XmlBuilder
     /// </summary>
     /// <param name="value">Valor a ser incluido no elemento</param>
     /// <returns>XmlBuilder.XmlBuilder</returns>
-    public XmlBuilder SetValue(string value)
+    public IForGenerateXml SetValue(string value)
     {
         if (_currentElement != null)
         {
@@ -307,7 +308,7 @@ public class XmlBuilder
     /// Metodo para construir o xml, baseado nas configurações feitas
     /// </summary>
     /// <returns>string</returns>
-    public string Build()
+    string IForGenerateXml.Build()
     {
         return _xmlDocument.OuterXml;
     }
