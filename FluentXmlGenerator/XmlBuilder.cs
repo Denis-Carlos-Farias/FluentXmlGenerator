@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace FluentXmlGenerator;
 
-public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
+public class XmlBuilder : IForFirstStage, IForSecondStage, IForGenerateXml
 {
     private readonly XmlDocument _xmlDocument;
     private XmlElement _currentElement;
@@ -226,6 +226,45 @@ public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
         }
 
         _currentElement = element;
+        return this;
+    }
+
+    public IForSecondStage Parent()
+    {
+        if (_currentElement.ParentNode is XmlElement parent)
+        {
+            _currentElement = parent;
+        }
+        return this;
+    }
+
+    public IForSecondStage Parent(string parentElementName)
+    {
+        var parentElement = _xmlDocument.GetElementsByTagName(parentElementName)[0] as XmlElement;
+
+        if (parentElement != null)
+        {
+            _currentElement = parentElement;
+        }
+        else
+        {
+            throw new InvalidOperationException($"Element {parentElementName} not found.");
+        }
+        return this;
+    }
+
+    public IForSecondStage Parent(string parentElementName, string namespaceElementName)
+    {
+        var parentElement = _xmlDocument.GetElementsByTagName($"{namespaceElementName}:{parentElementName}")[0] as XmlElement;
+
+        if (parentElement != null)
+        {
+            _currentElement = parentElement;
+        }
+        else
+        {
+            throw new InvalidOperationException($"Element {parentElementName} and/or namespace {namespaceElementName} not found.");
+        }
         return this;
     }
 
