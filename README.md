@@ -223,3 +223,21 @@ Método para construir o XML baseado nas configurações feitas.
 ```csharp
 xmlBuilderInstance.Build();
 ```
+
+---
+
+
+## Exemplo De utilização
+
+```csharp
+using FluentXmlGenerator;
+
+var xmlFile = XmlBuilder
+    .Configure()
+    .AddElement("First")
+    .SetValue("All ok")
+    .AddElement("Second")
+    .WithAttribute("href", "https://github.com")
+    .SetValue("github link")
+    .Build();
+```
