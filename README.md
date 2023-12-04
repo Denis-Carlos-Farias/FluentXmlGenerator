@@ -2,15 +2,17 @@
 
 O FluentXmlGenerator é um componente que oferece métodos para criar e configurar elementos XML, tambem cria elementos e propriedades baseado em uma classe no C#.
 
-## Descrição
+## Método Configure
+
+### Descrição
 Método de configuração inicial.
 
-## Uso
+### Uso
 ```csharp
 XmlBuilder.Configure();
 ```
 
-### AddElement\<T\>
+## Método AddElement\<T\>
 
 ### Descrição
 Método que cria elementos com base nas propriedades de uma classe.
@@ -23,201 +25,219 @@ Método que cria elementos com base nas propriedades de uma classe.
 xmlBuilderInstance.AddElement(obj);
 ```
 
-### AddElement\<T\>
+## Método AddElement\<T\>
 
-## Descrição
+### Descrição
 Método que cria elementos com base nas propriedades de uma classe e atribui um namespace e um atributo.
 
-## Parâmetros
+### Parâmetros
 - `obj` (obrigatório): Objeto com as propriedades a serem transformadas.
 - `namespacePrefix` (opcional): Prefixo do namespace a ser atribuído.
 - `attribute` (opcional): Nome do atributo.
 
-## Uso
+### Uso
 ```csharp
 xmlBuilderInstance.AddElement(obj, namespacePrefix, attribute);
 ```
 
-### AddElement\<T\>
+## Método AddElement\<T\>
 
-## Descrição
+### Descrição
 Método que cria elementos com base nas propriedades de uma classe e atribui namespaces tanto ao atributo quanto ao valor do atributo.
 
-## Parâmetros
+### Parâmetros
 - `obj` (obrigatório): Objeto com as propriedades a serem transformadas.
 - `namespacePrefixattribute` (opcional): Prefixo do namespace a ser atribuído ao atributo.
 - `namespacePrefixattributeValue` (opcional): Prefixo do namespace a ser atribuído ao valor do atributo.
 - `attribute` (obrigatório): Nome do atributo.
 - `defaultAttributeValue` (opcional): Valor padrão para o atributo.
 
-## Uso
+### Uso
 ```csharp
 xmlBuilderInstance.AddElement(obj, namespacePrefixattribute, namespacePrefixattributeValue, attribute, defaultAttributeValue);
 ```
 
 ---
 
-### AddElement
+## Método AddElement
 
-## Descrição
+### Descrição
 Método para criar um elemento XML.
 
-## Parâmetros
+### Parâmetros
 - `elementName` (obrigatório): Nome do elemento.
 
-## Uso
+### Uso
 ```csharp
 xmlBuilderInstance.AddElement(elementName);
 ```
 
 ---
 
-### AddElement
+## Método AddElement
 
-## Descrição
+### Descrição
 Método para criar um elemento com um namespace herdado.
 
-## Parâmetros
+### Parâmetros
 - `elementName` (obrigatório): Nome do elemento.
 - `namespacePrefix` (opcional): Nome do namespace a ser herdado.
 
-## Uso
+### Uso
 ```csharp
 xmlBuilderInstance.AddElement(elementName, namespacePrefix);
 ```
 
 ---
 
-### AddElement
+## Método AddElement
 
-## Descrição
+### Descrição
 Método para criar um elemento com um namespace específico.
 
-## Parâmetros
+### Parâmetros
 - `elementName` (obrigatório): Nome do elemento.
 - `namespacePrefix` (opcional): Prefixo do namespace.
 - `namespaceUri` (opcional): URI do respectivo namespace.
 
-## Uso
+### Uso
 ```csharp
 xmlBuilderInstance.AddElement(elementName, namespacePrefix, namespaceUri);
 ```
 
 ---
 
-### Parent
+## Método Parent
 
-## Descrição
+### Descrição
 Método para retornar para o elemento pai em primeiro nível.
 
-## Uso
+### Uso
 ```csharp
 xmlBuilderInstance.Parent();
 ```
 
 ---
 
-### Parent
+## Método Parent
 
-## Descrição
+### Descrição
 Método para retornar para o elemento pai baseado no nome do elemento passado.
 
-## Parâmetros
+### Parâmetros
 - `parentElementName` (obrigatório): Nome do elemento pai.
 
-## Uso
+### Uso
 ```csharp
 xmlBuilderInstance.Parent(parentElementName);
 ```
 
 ---
 
-### Parent
+## Método Parent
 
-## Descrição
+### Descrição
 Método para retornar para o elemento pai baseado no nome do elemento e do namespace passados.
 
-## Parâmetros
+### Parâmetros
 - `parentElementName` (obrigatório): Nome do elemento pai.
 - `namespaceElementName` (obrigatório): Nome do namespace vinculado ao elemento pai.
 
-## Uso
+### Uso
 ```csharp
 xmlBuilderInstance.Parent(parentElementName, namespaceElementName);
 ```
 
 ---
 
-### WithNamespace
+## Método WithNamespace
 
-## Descrição
+### Descrição
 Método para adicionar um namespace ao elemento correspondente.
 
-## Parâmetros
+### Parâmetros
 - `prefix` (obrigatório): Prefixo do namespace.
 - `uri` (obrigatório): URI do respectivo namespace.
 
-## Uso
+### Uso
 ```csharp
 xmlBuilderInstance.WithNamespace(prefix, uri);
 ```
 
 ---
 
-### WithAttribute
+## Método WithAttribute
 
-## Descrição
+### Descrição
 Método para adicionar atributos ao elemento correspondente.
 
-## Parâmetros
+### Parâmetros
 - `attributeName` (obrigatório): Nome do atributo.
 - `attributeValue` (obrigatório): Valor do atributo.
 
-## Uso
+### Uso
 ```csharp
 xmlBuilderInstance.WithAttribute(attributeName, attributeValue);
 ```
 
 ---
 
-### WithAttribute
+## Método WithAttribute
 
-## Descrição
+### Descrição
 Método para adicionar atributos com namespaces ao elemento correspondente.
 
-## Parâmetros
+### Parâmetros
 - `namespacePrefix` (obrigatório): Nome do prefixo.
 - `attributeName` (obrigatório): Nome do atributo.
 - `attributeValue` (obrigatório): Valor do atributo.
 
-## Uso
+### Uso
 ```csharp
 xmlBuilderInstance.WithAttribute(namespacePrefix, attributeName, attributeValue);
 ```
 
 ---
 
-### SetValue
+## Método SetValue
 
-## Descrição
+### Descrição
 Método para adicionar um valor ao elemento correspondente.
 
-## Parâmetros
+### Parâmetros
 - `value` (obrigatório): Valor a ser incluído no elemento.
 
-## Uso
+### Uso
 ```csharp
 xmlBuilderInstance.SetValue(value);
 ```
 
 ---
 
-### Build
+## Método Build
 
-## Descrição
+### Descrição
 Método para construir o XML baseado nas configurações feitas.
 
-## Uso
+### Uso
 ```csharp
 xmlBuilderInstance.Build();
+```
+
+---
+
+
+## Exemplo De utilização
+
+```csharp
+using FluentXmlGenerator;
+
+var xmlFile = XmlBuilder
+    .Configure()
+    .AddElement("First")
+    .SetValue("All ok")
+    .AddElement("Second")
+    .WithAttribute("href", "https://github.com")
+    .SetValue("github link")
+    .Build();
 ```
