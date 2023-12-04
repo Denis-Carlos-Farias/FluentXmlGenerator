@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace FluentXmlGenerator;
 
-public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
+public class XmlBuilder : IForFirstStage, IForSecondStage, IForGenerateXml
 {
     private readonly XmlDocument _xmlDocument;
     private XmlElement _currentElement;
@@ -16,7 +16,7 @@ public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
     /// <summary>
     /// Metodo de configuração inicial
     /// </summary>
-    /// <returns>XmlBuilder.XmlBuilder</returns>
+    /// <returns>XmlBuilder</returns>
     public static IForFirstStage Configure()
     {
         return new XmlBuilder();
@@ -27,7 +27,7 @@ public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
     /// </summary>
     /// <typeparam name="T">Classe a ser utilizada</typeparam>
     /// <param name="obj">Objeto com as propriedades a serem transformadas</param>
-    /// <returns>XmlBuilder.XmlBuilder</returns>
+    /// <returns>XmlBuilder</returns>
     IForSecondStage IForFirstStage.AddElement<T>(T obj) where T : class
     {
         var properties = typeof(T).GetProperties();
@@ -62,7 +62,7 @@ public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
     /// <param name="obj">Objeto com as propriedades a serem transformadas</param>
     /// <param name="namespacePrefix">Prefixo do namespace a ser atribuido</param>
     /// <param name="attribute">Nome do atributo</param>
-    /// <returns>XmlBuilder.XmlBuilder</returns>
+    /// <returns>XmlBuilder</returns>
     IForSecondStage IForFirstStage.AddElement<T>(T obj, string namespacePrefix, string attribute) where T : class
     {
         var properties = typeof(T).GetProperties();
@@ -79,19 +79,20 @@ public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
                 var attr = _xmlDocument.CreateAttribute(namespacePrefix, attribute, attrNamespaceUri);
                 attr.Value = value?.GetType()?.Name ?? "string";
                 _currentElement?.LastChild?.Attributes?.Append(attr);
+
+                if (!string.IsNullOrEmpty(value))
+                {
+                    element.InnerText = value;
+                }
+                else
+                {
+                    var attrubute = _xmlDocument.CreateAttribute(namespacePrefix, "nil", attrNamespaceUri);
+                    attrubute.Value = "true";
+                    _currentElement?.LastChild?.Attributes?.Append(attrubute);
+                }
             }
 
-            if (!string.IsNullOrEmpty(value))
-            {
-                element.InnerText = value;
-            }
-            else
-            {
-                var attrNamespaceUri = _currentElement.GetNamespaceOfPrefix(namespacePrefix);
-                var attr = _xmlDocument.CreateAttribute(namespacePrefix, "nil", attrNamespaceUri);
-                attr.Value = "true";
-                _currentElement?.LastChild?.Attributes?.Append(attr);
-            }
+            
         }
 
         return this;
@@ -107,7 +108,7 @@ public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
     /// <param name="attribute">Nome do atributo</param>
     /// <param name="defaultAttributeValue">Campo opcional para adicionar o valor padrão no atributo.
     /// valor default: string</param>
-    /// <returns>XmlBuilder.XmlBuilder</returns>
+    /// <returns>XmlBuilder</returns>
     IForSecondStage IForFirstStage.AddElement<T>(T obj, string namespacePrefixattribute, string namespacePrefixattributeValue, string attribute, bool defaultAttributeValue) where T : class
     {
         var properties = typeof(T).GetProperties();
@@ -146,7 +147,7 @@ public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
     /// Metodo para criar um elemento em xml.
     /// </summary>
     /// <param name="elementName">Nome do elemento</param>
-    /// <returns>XmlBuilder.XmlBuilder</returns>
+    /// <returns>XmlBuilder</returns>
     public IForSecondStage AddElement(string elementName)
     {
         var element = _xmlDocument.CreateElement(elementName);
@@ -167,7 +168,7 @@ public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
     /// </summary>
     /// <param name="elementName">Nome do elemento</param>
     /// <param name="namespacePrefix">Nome do namespace a ser herdado</param>
-    /// <returns>XmlBuilder.XmlBuilder</returns>
+    /// <returns>XmlBuilder</returns>
     public IForSecondStage AddElement(string elementName, string namespacePrefix = null)
     {
         XmlElement element;
@@ -192,16 +193,12 @@ public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
     /// <param name="elementName">Nome do elemento</param>
     /// <param name="namespacePrefix">Prefixo do namespace</param>
     /// <param name="namespaceUri">Uri do respectivo namespace</param>
-    /// <returns>XmlBuilder.XmlBuilder</returns>
+    /// <returns>XmlBuilder</returns>
     public IForSecondStage AddElement(string elementName, string namespacePrefix = null, string namespaceUri = null)
     {
         XmlElement element;
         if (namespacePrefix != null && namespaceUri != null)
         {
-            var prefix = _xmlDocument.CreateAttribute("xmlns", namespacePrefix, "http://www.w3.org/2000/xmlns/");
-            prefix.Value = namespaceUri;
-            _xmlDocument.DocumentElement?.SetAttributeNode(prefix);
-
             element = _xmlDocument.CreateElement(namespacePrefix, elementName, namespaceUri);
             if (_currentElement == null)
             {
@@ -230,11 +227,67 @@ public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
     }
 
     /// <summary>
+    /// Metodo que Retorna para o elemento pai em primeiro nivel
+    /// </summary>
+    /// <returns>XmlBuilder</returns>
+    public IForSecondStage Parent()
+    {
+        if (_currentElement.ParentNode is XmlElement parent)
+        {
+            _currentElement = parent;
+        }
+        return this;
+    }
+
+    /// <summary>
+    /// Metodo que Retorna para o elemento pai baseado no elemento passado
+    /// </summary>
+    /// <param name="parentElementName">Nome do elemento pai</param>
+    /// <returns>XmlBuilder</returns>
+    /// <exception cref="InvalidOperationException">Caso o elemento pai não seja encontrado, ocorrerá um erro not found</exception>
+    public IForSecondStage Parent(string parentElementName)
+    {
+        var parentElement = _xmlDocument.GetElementsByTagName(parentElementName)[0] as XmlElement;
+
+        if (parentElement != null)
+        {
+            _currentElement = parentElement;
+        }
+        else
+        {
+            throw new InvalidOperationException($"Element {parentElementName} not found.");
+        }
+        return this;
+    }
+
+    /// <summary>
+    /// Metodo que retorna para o elemento pai baseado no elemento passado e namespace
+    /// </summary>
+    /// <param name="parentElementName">Nome do elemento pai</param>
+    /// <param name="namespaceElementName">Nome do nomespace vinculado ao elemento pai</param>
+    /// <returns>XmlBuilder</returns>
+    /// <exception cref="InvalidOperationException">Caso o elemento pai e/ou namespace vinculado não forem encontrados, ocorrerá um erro not found</exception>
+    public IForSecondStage Parent(string parentElementName, string namespaceElementName)
+    {
+        var parentElement = _xmlDocument.GetElementsByTagName($"{namespaceElementName}:{parentElementName}")[0] as XmlElement;
+
+        if (parentElement != null)
+        {
+            _currentElement = parentElement;
+        }
+        else
+        {
+            throw new InvalidOperationException($"Element {parentElementName} and/or namespace {namespaceElementName} not found.");
+        }
+        return this;
+    }
+
+    /// <summary>
     /// Metodo que adiciona um namespace no elemento correspondente
     /// </summary>
     /// <param name="prefix">Prefixo do namespace</param>
     /// <param name="uri">Uri do respectivo namespace</param>
-    /// <returns>XmlBuilder.XmlBuilder</returns>
+    /// <returns>XmlBuilder</returns>
     public IForGenerateXml WithNamespace(string prefix, string uri)
     {
         if (_currentElement != null)
@@ -251,7 +304,7 @@ public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
     /// </summary>
     /// <param name="attributeName">Nome do atributo</param>
     /// <param name="attributeValue">Valor do atributo</param>
-    /// <returns>XmlBuilder.XmlBuilder</returns>
+    /// <returns>XmlBuilder</returns>
     public IForGenerateXml WithAttribute(string attributeName, string attributeValue)
     {
         if (_currentElement != null)
@@ -269,7 +322,7 @@ public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
     /// <param name="namespacePrefix">Nome do prefixo</param>
     /// <param name="attributeName">Nome do atributo</param>
     /// <param name="attributeValue">Valor do atributo</param>
-    /// <returns>XmlBuilder.XmlBuilder</returns>
+    /// <returns>XmlBuilder</returns>
     public IForGenerateXml WithAttribute(string namespacePrefix, string attributeName, string attributeValue)
     {
         if (_currentElement != null)
@@ -294,7 +347,7 @@ public class XmlBuilder: IForFirstStage, IForSecondStage, IForGenerateXml
     /// Metodo para adicionar valore ao elemento correspondente
     /// </summary>
     /// <param name="value">Valor a ser incluido no elemento</param>
-    /// <returns>XmlBuilder.XmlBuilder</returns>
+    /// <returns>XmlBuilder</returns>
     public IForGenerateXml SetValue(string value)
     {
         if (_currentElement != null)
