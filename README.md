@@ -1,6 +1,6 @@
 # FluentXmlGenerator
 
-O FluentXmlGenerator é um componente que oferece métodos para criar e configurar elementos XML, tambem cria elementos e propriedades baseado em uma classe no C#.
+O FluentXmlGenerator é um componente que oferece métodos para criar e configurar elementos XML, tambem cria elementos baseado em uma classe no C#.
 
 ## Método Configure
 
@@ -9,7 +9,7 @@ Método de configuração inicial.
 
 ### Uso
 ```csharp
-XmlBuilder.Configure();
+.Configure();
 ```
 
 ## Método AddElement\<T\>
@@ -22,7 +22,7 @@ Método que cria elementos com base nas propriedades de uma classe.
 
 ### Uso
 ```csharp
-xmlBuilderInstance.AddElement(obj);
+.AddElement(obj);
 ```
 
 ## Método AddElement\<T\>
@@ -37,7 +37,7 @@ Método que cria elementos com base nas propriedades de uma classe e atribui um 
 
 ### Uso
 ```csharp
-xmlBuilderInstance.AddElement(obj, namespacePrefix, attribute);
+.AddElement(obj, namespacePrefix, attribute);
 ```
 
 ## Método AddElement\<T\>
@@ -54,7 +54,7 @@ Método que cria elementos com base nas propriedades de uma classe e atribui nam
 
 ### Uso
 ```csharp
-xmlBuilderInstance.AddElement(obj, namespacePrefixattribute, namespacePrefixattributeValue, attribute, defaultAttributeValue);
+.AddElement(obj, namespacePrefixattribute, namespacePrefixattributeValue, attribute, defaultAttributeValue);
 ```
 
 ---
@@ -69,7 +69,7 @@ Método para criar um elemento XML.
 
 ### Uso
 ```csharp
-xmlBuilderInstance.AddElement(elementName);
+.AddElement(elementName);
 ```
 
 ---
@@ -85,7 +85,7 @@ Método para criar um elemento com um namespace herdado.
 
 ### Uso
 ```csharp
-xmlBuilderInstance.AddElement(elementName, namespacePrefix);
+.AddElement(elementName, namespacePrefix);
 ```
 
 ---
@@ -102,7 +102,7 @@ Método para criar um elemento com um namespace específico.
 
 ### Uso
 ```csharp
-xmlBuilderInstance.AddElement(elementName, namespacePrefix, namespaceUri);
+.AddElement(elementName, namespacePrefix, namespaceUri);
 ```
 
 ---
@@ -114,7 +114,7 @@ Método para retornar para o elemento pai em primeiro nível.
 
 ### Uso
 ```csharp
-xmlBuilderInstance.Parent();
+.Parent();
 ```
 
 ---
@@ -129,7 +129,7 @@ Método para retornar para o elemento pai baseado no nome do elemento passado.
 
 ### Uso
 ```csharp
-xmlBuilderInstance.Parent(parentElementName);
+.Parent(parentElementName);
 ```
 
 ---
@@ -145,7 +145,7 @@ Método para retornar para o elemento pai baseado no nome do elemento e do names
 
 ### Uso
 ```csharp
-xmlBuilderInstance.Parent(parentElementName, namespaceElementName);
+.Parent(parentElementName, namespaceElementName);
 ```
 
 ---
@@ -161,7 +161,7 @@ Método para adicionar um namespace ao elemento correspondente.
 
 ### Uso
 ```csharp
-xmlBuilderInstance.WithNamespace(prefix, uri);
+.WithNamespace(prefix, uri);
 ```
 
 ---
@@ -177,7 +177,7 @@ Método para adicionar atributos ao elemento correspondente.
 
 ### Uso
 ```csharp
-xmlBuilderInstance.WithAttribute(attributeName, attributeValue);
+.WithAttribute(attributeName, attributeValue);
 ```
 
 ---
@@ -194,7 +194,7 @@ Método para adicionar atributos com namespaces ao elemento correspondente.
 
 ### Uso
 ```csharp
-xmlBuilderInstance.WithAttribute(namespacePrefix, attributeName, attributeValue);
+.WithAttribute(namespacePrefix, attributeName, attributeValue);
 ```
 
 ---
@@ -209,7 +209,7 @@ Método para adicionar um valor ao elemento correspondente.
 
 ### Uso
 ```csharp
-xmlBuilderInstance.SetValue(value);
+.SetValue(value);
 ```
 
 ---
@@ -221,13 +221,13 @@ Método para construir o XML baseado nas configurações feitas.
 
 ### Uso
 ```csharp
-xmlBuilderInstance.Build();
+.Build();
 ```
 
 ---
 
 
-## Exemplo De utilização
+## Exemplo de utilização
 
 ```csharp
 using FluentXmlGenerator;
